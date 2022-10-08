@@ -56,7 +56,7 @@ def _quantum_subroutine(N, x):
     return 2**n//r
 
 
-def shor(N: int, quantum_subroutine, quantum: bool = False, seed=None, verbose=False, _timezone=-3) -> int:
+def shor(N: int, quantum_subroutine=_quantum_subroutine, quantum: bool = False, seed=None, verbose=False, _timezone=-3) -> int:
     """
     Shor's factorization algorithm
 
@@ -148,11 +148,18 @@ if __name__ == '__main__':
     prime_list = [5, 11, 17, 23, 29, 41, 47, 53, 59, 71, 83, 89, 101, 107,
                   113, 131, 137, 149, 167, 173, 179, 191, 197, 227, 233, 239, 251, 257, 263]
 
-    for N in sorted([p*q for p, q in combinations(prime_list, 2)]):
+    import sys
+    if sys.argv[1]:
         try:
-            f = shor(N, _quantum_subroutine, quantum=True, verbose=True)
+            f = shor(int(sys.argv[1]),  quantum=True, verbose=True)
         except Exception as e:
             print(e)
-            continue
+    else:
+        for N in sorted([p*q for p, q in combinations(prime_list, 2)]):
+            try:
+                f = shor(N,  quantum=True, verbose=True)
+            except Exception as e:
+                print(e)
+                continue
 
         assert (N == f*(N//f))
