@@ -150,18 +150,17 @@ if __name__ == '__main__':
     prime_list = [5, 11, 17, 23, 29, 41, 47, 53, 59, 71, 83, 89, 101, 107,
                   113, 131, 137, 149, 167, 173, 179, 191, 197, 227, 233, 239, 251, 257, 263]
 
-    import sys
-    if sys.argv[1]:
+    # import sys
+    # if sys.argv[1]:
+    #     try:
+    #         f = shor(int(sys.argv[1]),  quantum=True, verbose=True)
+    #     except Exception as e:
+    #         print(e)
+    for N in sorted([p*q for p, q in combinations(prime_list, 2)]):
         try:
-            f = shor(int(sys.argv[1]),  quantum=True, verbose=True)
+            f = shor(N,  quantum=True, verbose=True)
         except Exception as e:
             print(e)
-    else:
-        for N in sorted([p*q for p, q in combinations(prime_list, 2)]):
-            try:
-                f = shor(N,  quantum=True, verbose=True)
-            except Exception as e:
-                print(e)
-                continue
+            continue
 
         assert (N == f*(N//f))
