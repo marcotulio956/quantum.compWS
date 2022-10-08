@@ -47,7 +47,9 @@ def _quantum_subroutine(N, x):
 
     def subroutine():
         reg1 = H(quant(n))
+        
         reg2 = pown(x, reg1, N)
+
         measure(reg2)
         adj(qft, reg1)
         return measure(reg1).value
